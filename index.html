@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RemodelQuoter — Charlotte NC</title>
+<style>
+  :root{
+    --bg:#f6f4ef; --panel:#ffffff; --ink:#26221c; --muted:#7a7263;
+    --line:#e5e0d5; --accent:#b4552d; --accent-ink:#fff; --good:#3d7a4f;
+    --est:#8a6d1f; --est-bg:#f5ecd2; --res-bg:#dcebe0; --danger:#a33;
+    --radius:10px; --mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font:15px/1.45 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+  header{display:flex;align-items:center;gap:14px;padding:14px 20px;background:var(--ink);color:#f3efe7}
+  header h1{font-size:17px;margin:0;font-weight:650;letter-spacing:.2px}
+  header .sub{font-size:12px;opacity:.7}
+  header nav{margin-left:auto;display:flex;gap:8px}
+  header nav button{background:transparent;border:1px solid #ffffff33;color:#f3efe7;padding:6px 12px;border-radius:8px;cursor:pointer;font-size:13px}
+  header nav button.active{background:#f3efe7;color:var(--ink);border-color:#f3efe7}
+  main{max-width:1100px;margin:0 auto;padding:18px 16px 80px}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:16px;margin-bottom:14px}
+  .panel h2{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:0 0 10px}
+  label{font-size:12px;color:var(--muted);display:block;margin-bottom:3px}
+  input[type=text],input[type=number],input[type=password],textarea,select{
+    width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;font:inherit;background:#fdfcf9;color:var(--ink)}
+  textarea{resize:vertical;min-height:90px}
+  input:focus,textarea:focus{outline:2px solid #b4552d55}
+  button.primary{background:var(--accent);color:var(--accent-ink);border:none;padding:9px 16px;border-radius:8px;font:inherit;font-weight:600;cursor:pointer}
+  button.primary:disabled{opacity:.5;cursor:default}
+  button.ghost{background:transparent;border:1px solid var(--line);color:var(--ink);padding:8px 14px;border-radius:8px;font:inherit;cursor:pointer}
+  button.ghost:hover{border-color:var(--muted)}
+  button.danger{color:var(--danger);border-color:#a3333333}
+  .row{display:flex;gap:12px;flex-wrap:wrap}
+  .row>div{flex:1;min-width:140px}
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  th{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);text-align:left;padding:6px 6px;border-bottom:1px solid var(--line)}
+  td{padding:4px 6px;border-bottom:1px solid var(--line);vertical-align:middle}
+  td input{padding:5px 7px;font-size:13px}
+  td.num input{text-align:right;font-family:var(--mono)}
+  tr.trade-head td{background:#efece3;font-weight:650;font-size:13px;padding:7px 8px}
+  tr.trade-head td span.sub{float:right;font-family:var(--mono);font-weight:600}
+  .pill{display:inline-block;font-size:10.5px;padding:2px 8px;border-radius:99px;font-weight:600;cursor:pointer;user-select:none}
+  .pill.est{background:var(--est-bg);color:var(--est)}
+  .pill.res{background:var(--res-bg);color:var(--good)}
+  .linetotal{font-family:var(--mono);text-align:right;white-space:nowrap}
+  .totals{position:sticky;bottom:0;background:var(--ink);color:#f3efe7;border-radius:var(--radius);padding:14px 18px;margin-top:14px;box-shadow:0 -4px 18px #0002}
+  .totals .tline{display:flex;justify-content:space-between;font-size:13.5px;padding:2px 0;font-family:var(--mono)}
+  .totals .tline.dim{opacity:.75}
+  .totals .grand{font-size:19px;font-weight:700;border-top:1px solid #ffffff2e;margin-top:6px;padding-top:8px}
+  .delta{font-size:12px;color:#f0c987;margin-left:10px;font-family:var(--mono)}
+  .knobs{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+  .knob input{font-family:var(--mono);text-align:right}
+  ul.editlist{list-style:none;margin:0;padding:0}
+  ul.editlist li{display:flex;gap:6px;margin-bottom:6px;align-items:center}
+  ul.editlist li::before{content:"•";color:var(--muted)}
+  ul.editlist input{flex:1}
+  .badge{display:inline-block;background:#a33;color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:99px;margin-left:8px}
+  .quotecard{display:flex;align-items:center;gap:14px;padding:13px 16px;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);margin-bottom:10px;cursor:pointer}
+  .quotecard:hover{border-color:var(--accent)}
+  .quotecard .qname{font-weight:650}
+  .quotecard .qmeta{font-size:12px;color:var(--muted)}
+  .quotecard .qtotal{margin-left:auto;font-family:var(--mono);font-weight:700}
+  .toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+  .spin{display:inline-block;width:14px;height:14px;border:2px solid #fff8;border-top-color:#fff;border-radius:50%;animation:sp 0.8s linear infinite;vertical-align:-2px;margin-right:7px}
+  @keyframes sp{to{transform:rotate(360deg)}}
+  .note{font-size:12.5px;color:var(--muted)}
+  .warn{background:#fdf3e4;border:1px solid #eddcb8;border-radius:8px;padding:10px 12px;font-size:13px;margin-top:8px}
+  .err{background:#fbe9e9;border:1px solid #eec7c7;color:#8c2b2b;border-radius:8px;padding:10px 12px;font-size:13px;margin-top:8px;white-space:pre-wrap}
+  @media(max-width:720px){ td input{min-width:54px} main{padding:12px 8px 80px} }
+  @media print{ body *{visibility:hidden} #proposal,#proposal *{visibility:visible} #proposal{position:absolute;inset:0} }
+  #proposal{display:none;background:#fff;color:#111;padding:40px;font-size:14px;line-height:1.5}
+  #proposal.show{display:block}
+  #proposal h1{font-size:22px;margin:0 0 2px}
+  #proposal h2{font-size:15px;border-bottom:2px solid #111;padding-bottom:4px;margin:24px 0 10px}
+  #proposal table{font-size:13px}
+  #proposal .ptotal{font-size:17px;font-weight:700;text-align:right;margin-top:10px}
+  #proposal .disc{font-size:11.5px;color:#555;margin-top:26px;border-top:1px solid #ccc;padding-top:10px}
+</style>
+</head>
+<body>
+<header>
+  <h1>RemodelQuoter</h1><span class="sub">Charlotte NC · zip <span id="hdrZip">28209</span></span>
+  <nav>
+    <button id="navQuotes" onclick="showView('quotes')">Quotes</button>
+    <button id="navEditor" onclick="showView('editor')">Editor</button>
+    <button id="navSettings" onclick="showView('settings')">Settings</button>
+  </nav>
+</header>
+<main>
+  <!-- ===================== QUOTES LIST ===================== -->
+  <section id="view-quotes" style="display:none">
+    <div class="toolbar">
+      <button class="primary" onclick="createQuote()">+ New quote</button>
+      <button class="ghost" onclick="document.getElementById('importFile').click()">Import JSON</button>
+      <input type="file" id="importFile" accept=".json" style="display:none" onchange="importQuote(event)">
+    </div>
+    <div id="quoteList"></div>
+    <p class="note" id="storageNote"></p>
+  </section>
+
+  <!-- ===================== EDITOR ===================== -->
+  <section id="view-editor" style="display:none">
+    <div class="panel">
+      <div class="row">
+        <div style="flex:2"><label>Project name</label><input type="text" id="qName" oninput="upd('name',this.value)"></div>
+        <div><label>Zip code</label><input type="text" id="qZip" oninput="upd('zip',this.value)"></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Scope of work <span id="permitBadge" class="badge" style="display:none">Permit likely</span></h2>
+      <textarea id="qScope" placeholder="e.g. Hall bath gut remodel, 5x8, mid-grade finishes, keep layout" oninput="upd('scopeText',this.value)"></textarea>
+      <div class="toolbar" style="margin-top:10px;margin-bottom:0">
+        <button class="primary" id="draftBtn" onclick="draftWithAI()">Draft quote with AI</button>
+        <span class="note" id="aiStatus"></span>
+      </div>
+      <div class="err" id="aiError" style="display:none"></div>
+    </div>
+
+    <div class="panel">
+      <h2>Line items</h2>
+      <table id="liTable"><thead><tr>
+        <th style="width:26%">Description</th><th>Qty</th><th>Unit</th><th>Mat $/u</th><th>Lab $/u</th><th>Src</th><th style="text-align:right">Total</th><th></th>
+      </tr></thead><tbody id="liBody"></tbody></table>
+      <div class="toolbar" style="margin-top:10px;margin-bottom:0">
+        <select id="addTrade"></select>
+        <button class="ghost" onclick="addLine()">+ Add line item</button>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Pricing knobs</h2>
+      <div class="knobs">
+        <div class="knob"><label>Overhead %</label><input type="number" step="0.5" id="k_overheadPct" onchange="updKnob('overheadPct',this.value)"></div>
+        <div class="knob"><label>Profit / markup %</label><input type="number" step="0.5" id="k_markupPct" onchange="updKnob('markupPct',this.value)"></div>
+        <div class="knob"><label>Contingency %</label><input type="number" step="0.5" id="k_contingencyPct" onchange="updKnob('contingencyPct',this.value)"></div>
+        <div class="knob"><label>Labor multiplier</label><input type="number" step="0.05" id="k_laborMult" onchange="updKnob('laborMult',this.value)"></div>
+        <div class="knob"><label>Materials tax %</label><input type="number" step="0.25" id="k_taxPct" onchange="updKnob('taxPct',this.value)"></div>
+      </div>
+      <p class="note" style="margin-bottom:0">NC treats remodels as real-property contracts: the contractor pays sales tax on materials at purchase, so tax is embedded in your cost — not billed to the client as a separate tax line.</p>
+    </div>
+
+    <div class="row">
+      <div class="panel" style="flex:1">
+        <h2>Assumptions &amp; allowances</h2>
+        <ul class="editlist" id="assumpList"></ul>
+        <button class="ghost" onclick="addListItem('assumptions')">+ Add</button>
+      </div>
+      <div class="panel" style="flex:1">
+        <h2>Exclusions</h2>
+        <ul class="editlist" id="exclList"></ul>
+        <button class="ghost" onclick="addListItem('exclusions')">+ Add</button>
+      </div>
+    </div>
+
+    <div class="panel" id="confNotesPanel" style="display:none">
+      <h2>Confidence notes</h2><ul id="confNotes" class="note" style="margin:0;padding-left:18px"></ul>
+    </div>
+
+    <div class="toolbar">
+      <button class="ghost" onclick="exportQuote()">Export JSON</button>
+      <button class="primary" onclick="showProposal()">Client Proposal</button>
+      <button class="ghost danger" onclick="deleteCurrent()">Delete quote</button>
+    </div>
+
+    <div class="totals" id="totalsBox"></div>
+  </section>
+
+  <!-- ===================== SETTINGS ===================== -->
+  <section id="view-settings" style="display:none">
+    <div class="panel">
+      <h2>AI connection</h2>
+      <div class="row">
+        <div><label>Provider</label>
+          <select id="s_provider" onchange="updSetting('provider',this.value);renderSettings()">
+            <option value="openrouter">OpenRouter (OAuth · any model)</option>
+            <option value="anthropic">Anthropic direct (API key)</option>
+            <option value="openai">OpenAI direct (API key)</option>
+            <option value="xai">xAI / Grok direct (API key)</option>
+          </select></div>
+        <div style="flex:1.4"><label>Model <span class="note">(editable — check provider docs)</span></label>
+          <input type="text" id="s_modelCur" list="modelList" onchange="updModel(this.value)">
+          <datalist id="modelList"></datalist></div>
+      </div>
+      <div class="row" style="margin-top:8px" id="orAuthRow">
+        <div><button class="primary" id="orSignInBtn" onclick="orSignIn()">Sign in with OpenRouter</button>
+          <button class="ghost" onclick="orSignOut()" id="orSignOutBtn" style="display:none">Sign out</button></div>
+        <div style="flex:2"><span class="note" id="orAuthNote"></span></div>
+      </div>
+      <div class="row" style="margin-top:8px">
+        <div style="flex:2"><label id="keyLabel">API key</label><input type="password" id="s_keyCur" placeholder="paste key…" onchange="updKey(this.value)"></div>
+        <div><label>Web search for local prices</label>
+          <select id="s_webSearch" onchange="updSetting('webSearch',this.value==='on')"><option value="on">On (researched pricing)</option><option value="off">Off (estimates only)</option></select>
+        </div>
+        <div><label>Max searches</label><input type="number" id="s_maxSearches" min="0" max="10" onchange="updSetting('maxSearches',+this.value)"></div>
+      </div>
+      <div class="warn" id="providerWarn"></div>
+    </div>
+    <div class="panel">
+      <h2>Defaults for new quotes</h2>
+      <div class="knobs">
+        <div><label>Zip</label><input type="text" id="s_zip" onchange="updSetting('zip',this.value)"></div>
+        <div><label>Overhead %</label><input type="number" id="s_overheadPct" onchange="updSetting('overheadPct',+this.value)"></div>
+        <div><label>Markup %</label><input type="number" id="s_markupPct" onchange="updSetting('markupPct',+this.value)"></div>
+        <div><label>Contingency %</label><input type="number" id="s_contingencyPct" onchange="updSetting('contingencyPct',+this.value)"></div>
+        <div><label>Labor mult</label><input type="number" step="0.05" id="s_laborMult" onchange="updSetting('laborMult',+this.value)"></div>
+        <div><label>Materials tax %</label><input type="number" step="0.25" id="s_taxPct" onchange="updSetting('taxPct',+this.value)"></div>
+      </div>
+    </div>
+  </section>
+
+  <div id="proposal"></div>
+</main>
+
+<script>
+'use strict';
+/* ============ constants ============ */
+const TRADES = ["Demo","Framing","Plumbing","Electrical","HVAC","Insulation","Drywall","Tile","Cabinetry","Countertops","Flooring","Paint","Fixtures/Finish","Cleanup","Other"];
+const LS_KEY = "remodelquoter.v1";
+const PROVIDERS = {
+  openrouter:{ label:"OpenRouter", base:"https://openrouter.ai/api/v1", oauth:true,
+    models:["anthropic/claude-sonnet-4.6","anthropic/claude-opus-4.6","openai/gpt-5","x-ai/grok-4","google/gemini-2.5-pro"],
+    warn:"One sign-in, any model — Claude, GPT, Grok, Gemini and more, billed to your OpenRouter credits. OAuth needs this page served over http(s) (e.g. GitHub Pages or `python3 -m http.server`); from a file:// page, paste a key from openrouter.ai/keys instead. Web-search research supported." },
+  anthropic:{ label:"Anthropic", base:"https://api.anthropic.com/v1", oauth:false,
+    models:["claude-sonnet-4-6","claude-opus-4-6","claude-haiku-4-5"],
+    warn:"Direct to api.anthropic.com with a key from console.anthropic.com (pay-per-use). Web-search research supported. Note: Anthropic does not offer subscription OAuth to third-party apps — key only." },
+  openai:{ label:"OpenAI", base:"https://api.openai.com/v1", oauth:false,
+    models:["gpt-5","gpt-5-mini","gpt-4.1"],
+    warn:"Direct to api.openai.com with a key from platform.openai.com. 'Sign in with ChatGPT' is restricted to OpenAI's own Codex products, so key only. Web-search research not wired for this provider — lines will be tagged [estimated]; use OpenRouter or Anthropic for researched pricing." },
+  xai:{ label:"xAI / Grok", base:"https://api.x.ai/v1", oauth:false,
+    models:["grok-4","grok-3"],
+    warn:"Direct to api.x.ai with a key from console.x.ai. xAI's Grok OAuth is an allowlisted device-code flow for specific tools, not browser apps — key only. Web-search research not wired for this provider; use OpenRouter or Anthropic for researched pricing. If browser calls are blocked by CORS, use OpenRouter." }
+};
+const DEF_SETTINGS = { provider:"openrouter",
+  keys:{ openrouter:"", anthropic:"", openai:"", xai:"" },
+  models:{ openrouter:"anthropic/claude-sonnet-4.6", anthropic:"claude-sonnet-4-6", openai:"gpt-5", xai:"grok-4" },
+  webSearch:true, maxSearches:5,
+  zip:"28209", overheadPct:10, markupPct:15, contingencyPct:10, laborMult:1.0, taxPct:7.25 };
+
+const SYSTEM_PROMPT = `You are a general contractor and remodeling estimator with 25+ years of residential experience. Given a scope of work and a zip code, break the scope into line items by trade in construction sequence (demo, rough trades, finishes). For each line item produce: trade (one of: ${TRADES.join(", ")}), description, quantity, unit, material cost per unit, labor cost per unit. Localize pricing to the zip's metro market. If web search is available, verify current local pricing for the 3-5 largest-dollar lines and tag those "researched"; tag everything else "estimated". Handle vague scope by assuming and flagging: quote immediately with reasonable assumptions and list every assumption, allowance, and exclusion. Never silently guess dimensions, finish levels, or existing conditions - state them as assumptions. Flag whether the scope likely requires a permit, and add confidence notes for high-variance items (anything behind walls). Do NOT include overhead, profit, contingency, or sales tax in line items - the app applies those separately. After any research, your final output must be ONLY a single \`\`\`json code block, no prose outside it, matching exactly:
+{"projectName":"string","assumptions":["string"],"exclusions":["string"],"permitLikely":true,"confidenceNotes":["string"],"lineItems":[{"trade":"string","description":"string","qty":0,"unit":"string","materialUnit":0,"laborUnit":0,"source":"researched|estimated","note":"string"}]}`;
+
+/* ============ state & persistence ============ */
+let mem = null; // in-memory fallback
+function loadDB(){
+  try{ const raw = localStorage.getItem(LS_KEY); if(raw) return JSON.parse(raw); }
+  catch(e){ /* storage unavailable */ }
+  return mem || { quotes:[], settings:{...DEF_SETTINGS} };
+}
+function saveDB(){
+  db.settings = db.settings || {...DEF_SETTINGS};
+  try{ localStorage.setItem(LS_KEY, JSON.stringify(db)); persistent = true; }
+  catch(e){ mem = db; persistent = false; }
+  const n = document.getElementById('storageNote');
+  if(n) n.textContent = persistent ? "Quotes auto-save in this browser. Use Export JSON for backups you can move between devices."
+    : "⚠ Browser storage unavailable in this context — quotes live in memory only. Use Export JSON to keep your work.";
+}
+let db = loadDB(); let persistent = true;
+(function migrateSettings(){
+  const s0 = db.settings || {};
+  db.settings = { ...DEF_SETTINGS, ...s0,
+    keys:{ ...DEF_SETTINGS.keys, ...(s0.keys||{}) },
+    models:{ ...DEF_SETTINGS.models, ...(s0.models||{}) } };
+  if(s0.apiKey && !db.settings.keys.anthropic){ // migrate v1 single-key shape
+    db.settings.keys.anthropic = s0.apiKey; db.settings.provider = "anthropic";
+    if(s0.model) db.settings.models.anthropic = s0.model;
+  }
+  delete db.settings.apiKey; delete db.settings.model;
+  if(!PROVIDERS[db.settings.provider]) db.settings.provider = "openrouter";
+})();
+let cur = null;            // current quote object (reference into db.quotes)
+let lastGrand = null;      // for delta display
+
+const uuid = () => (crypto.randomUUID ? crypto.randomUUID() : 'id-'+Math.random().toString(36).slice(2)+Date.now());
+const money = v => "$" + Math.round(v).toLocaleString("en-US");
+const cents = v => "$" + v.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});
+
+function newQuote(){
+  const s = db.settings;
+  return { id:uuid(), name:"Untitled project", zip:s.zip, scopeText:"",
+    createdAt:new Date().toISOString(), updatedAt:new Date().toISOString(),
+    knobs:{ overheadPct:s.overheadPct, markupPct:s.markupPct, contingencyPct:s.contingencyPct, laborMult:s.laborMult, taxPct:s.taxPct },
+    assumptions:[], exclusions:[], permitLikely:false, confidenceNotes:[], lineItems:[] };
+}
+function newLine(trade){ return { id:uuid(), trade:trade||"Other", description:"", qty:1, unit:"ea", materialUnit:0, laborUnit:0, source:"estimated", note:"" }; }
+
+/* ============ calc engine (Spec 02) ============ */
+function calc(q){
+  const k = q.knobs;
+  let materials=0, labor=0;
+  for(const li of q.lineItems){ materials += (+li.qty||0)*(+li.materialUnit||0); labor += (+li.qty||0)*(+li.laborUnit||0); }
+  labor *= (+k.laborMult||1);
+  const materialsTax = materials * (+k.taxPct||0)/100;
+  const directCost = materials + materialsTax + labor;
+  const contingency = directCost * (+k.contingencyPct||0)/100;
+  const overhead = (directCost+contingency) * (+k.overheadPct||0)/100;
+  const profit = (directCost+contingency+overhead) * (+k.markupPct||0)/100;
+  const grandTotal = directCost+contingency+overhead+profit;
+  return {materials, materialsTax, labor, directCost, contingency, overhead, profit, grandTotal};
+}
+const lineTotal = (li,k) => (+li.qty||0)*((+li.materialUnit||0) + (+li.laborUnit||0)*(+k.laborMult||1));
+
+/* ============ views ============ */
+function showView(v){
+  for(const id of ["quotes","editor","settings"]){
+    document.getElementById("view-"+id).style.display = (id===v)?"":"none";
+    document.getElementById("nav"+id[0].toUpperCase()+id.slice(1)).classList.toggle("active", id===v);
+  }
+  document.getElementById('proposal').classList.remove('show');
+  if(v==="quotes") renderList();
+  if(v==="settings") renderSettings();
+  if(v==="editor" && !cur){ if(db.quotes.length) openQuote(db.quotes[0].id); else createQuote(); }
+}
+function renderList(){
+  const el = document.getElementById("quoteList"); el.innerHTML="";
+  if(!db.quotes.length){ el.innerHTML = '<p class="note">No quotes yet — create one.</p>'; }
+  for(const q of db.quotes){
+    const t = calc(q);
+    const card = document.createElement("div"); card.className="quotecard";
+    card.innerHTML = `<div><div class="qname"></div><div class="qmeta">${q.zip} · updated ${new Date(q.updatedAt).toLocaleDateString()} · ${q.lineItems.length} items</div></div>
+      <div class="qtotal">${money(t.grandTotal)}</div>
+      <button class="ghost" data-a="dup">Duplicate</button>`;
+    card.querySelector(".qname").textContent = q.name;
+    card.onclick = e => { if(e.target.dataset.a==="dup"){ duplicateQuote(q.id); e.stopPropagation(); } else openQuote(q.id); };
+    el.appendChild(card);
+  }
+  saveDB();
+}
+function createQuote(){ const q=newQuote(); db.quotes.unshift(q); openQuote(q.id); }
+function duplicateQuote(id){ const src=db.quotes.find(x=>x.id===id); const c=JSON.parse(JSON.stringify(src)); c.id=uuid(); c.name=src.name+" (copy)"; c.updatedAt=new Date().toISOString(); db.quotes.unshift(c); renderList(); }
+function openQuote(id){ cur = db.quotes.find(x=>x.id===id); lastGrand=null; renderEditor(); showViewRaw("editor"); }
+function showViewRaw(v){ // showView without auto-create recursion
+  for(const id of ["quotes","editor","settings"]){
+    document.getElementById("view-"+id).style.display=(id===v)?"":"none";
+    document.getElementById("nav"+id[0].toUpperCase()+id.slice(1)).classList.toggle("active",id===v);
+  }
+}
+function deleteCurrent(){
+  if(!cur) return;
+  if(!confirm("Delete this quote permanently?")) return;
+  db.quotes = db.quotes.filter(x=>x.id!==cur.id); cur=null; saveDB(); showView("quotes");
+}
+
+/* ============ editor rendering ============ */
+function renderEditor(){
+  if(!cur) return;
+  document.getElementById("qName").value = cur.name;
+  document.getElementById("qZip").value = cur.zip;
+  document.getElementById("hdrZip").textContent = cur.zip;
+  document.getElementById("qScope").value = cur.scopeText;
+  document.getElementById("permitBadge").style.display = cur.permitLikely ? "" : "none";
+  for(const kn of ["overheadPct","markupPct","contingencyPct","laborMult","taxPct"])
+    document.getElementById("k_"+kn).value = cur.knobs[kn];
+  const sel = document.getElementById("addTrade");
+  if(!sel.options.length) TRADES.forEach(t=>{const o=document.createElement("option");o.textContent=t;sel.appendChild(o);});
+  renderLines(); renderLists(); renderTotals();
+}
+function renderLines(){
+  const tb = document.getElementById("liBody"); tb.innerHTML="";
+  const k = cur.knobs;
+  const byTrade = {};
+  for(const li of cur.lineItems){ (byTrade[li.trade] = byTrade[li.trade]||[]).push(li); }
+  const order = TRADES.filter(t=>byTrade[t]).concat(Object.keys(byTrade).filter(t=>!TRADES.includes(t)));
+  for(const trade of order){
+    const sub = byTrade[trade].reduce((a,li)=>a+lineTotal(li,k),0);
+    const hr = document.createElement("tr"); hr.className="trade-head";
+    hr.innerHTML = `<td colspan="8">${trade}<span class="sub">${money(sub)}</span></td>`;
+    tb.appendChild(hr);
+    for(const li of byTrade[trade]){
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td><input type="text" value=""></td>
+        <td class="num" style="width:70px"><input type="number" step="any" value="${+li.qty||0}"></td>
+        <td style="width:66px"><input type="text" value=""></td>
+        <td class="num" style="width:90px"><input type="number" step="any" value="${+li.materialUnit||0}"></td>
+        <td class="num" style="width:90px"><input type="number" step="any" value="${+li.laborUnit||0}"></td>
+        <td><span class="pill ${li.source==="researched"?"res":"est"}" title="Click to toggle">${li.source==="researched"?"researched":"estimated"}</span></td>
+        <td class="linetotal">${money(lineTotal(li,k))}</td>
+        <td><button class="ghost danger" style="padding:2px 8px" title="Remove">×</button></td>`;
+      const ins = tr.querySelectorAll("input");
+      ins[0].value = li.description; ins[2].value = li.unit;
+      if(li.note) ins[0].title = li.note;
+      ins[0].onchange = e=>{ li.description=e.target.value; touch(); };
+      ins[1].onchange = e=>{ li.qty=+e.target.value||0; touch(); renderLines(); renderTotals(); };
+      ins[2].onchange = e=>{ li.unit=e.target.value; touch(); };
+      ins[3].onchange = e=>{ li.materialUnit=+e.target.value||0; touch(); renderLines(); renderTotals(); };
+      ins[4].onchange = e=>{ li.laborUnit=+e.target.value||0; touch(); renderLines(); renderTotals(); };
+      tr.querySelector(".pill").onclick = ()=>{ li.source = li.source==="researched"?"estimated":"researched"; renderLines(); touch(); };
+      tr.querySelector("button").onclick = ()=>{ cur.lineItems = cur.lineItems.filter(x=>x.id!==li.id); touch(); renderLines(); renderTotals(); };
+      tb.appendChild(tr);
+    }
+  }
+}
+function addLine(){ const t=document.getElementById("addTrade").value; cur.lineItems.push(newLine(t)); touch(); renderLines(); renderTotals(); }
+function renderLists(){
+  for(const [key, elId] of [["assumptions","assumpList"],["exclusions","exclList"]]){
+    const ul = document.getElementById(elId); ul.innerHTML="";
+    cur[key].forEach((txt,i)=>{
+      const li=document.createElement("li");
+      const inp=document.createElement("input"); inp.type="text"; inp.value=txt;
+      inp.onchange=e=>{cur[key][i]=e.target.value;touch();};
+      const rm=document.createElement("button"); rm.className="ghost danger"; rm.style.padding="2px 8px"; rm.textContent="×";
+      rm.onclick=()=>{cur[key].splice(i,1);touch();renderLists();};
+      li.append(inp,rm); ul.appendChild(li);
+    });
+  }
+  const cn=document.getElementById("confNotes"); cn.innerHTML="";
+  (cur.confidenceNotes||[]).forEach(t=>{const li=document.createElement("li");li.textContent=t;cn.appendChild(li);});
+  document.getElementById("confNotesPanel").style.display = (cur.confidenceNotes||[]).length?"":"none";
+}
+function addListItem(key){ cur[key].push(""); touch(); renderLists(); }
+function renderTotals(){
+  const t = calc(cur); const k = cur.knobs;
+  let deltaHtml = "";
+  if(lastGrand!==null && Math.round(lastGrand)!==Math.round(t.grandTotal))
+    deltaHtml = `<span class="delta">${money(lastGrand)} → ${money(t.grandTotal)}</span>`;
+  lastGrand = t.grandTotal;
+  document.getElementById("totalsBox").innerHTML = `
+    <div class="tline dim"><span>Materials subtotal</span><span>${cents(t.materials)}</span></div>
+    <div class="tline dim"><span>Materials sales tax (${k.taxPct}%, paid at purchase — embedded)</span><span>${cents(t.materialsTax)}</span></div>
+    <div class="tline dim"><span>Labor subtotal (×${k.laborMult})</span><span>${cents(t.labor)}</span></div>
+    <div class="tline"><span>Direct cost</span><span>${cents(t.directCost)}</span></div>
+    <div class="tline dim"><span>Contingency (${k.contingencyPct}%)</span><span>${cents(t.contingency)}</span></div>
+    <div class="tline dim"><span>Overhead (${k.overheadPct}%)</span><span>${cents(t.overhead)}</span></div>
+    <div class="tline dim"><span>Profit (${k.markupPct}%)</span><span>${cents(t.profit)}</span></div>
+    <div class="tline grand"><span>Grand total ${deltaHtml}</span><span>${money(t.grandTotal)}</span></div>`;
+}
+
+/* ============ mutations ============ */
+function touch(){ if(cur){ cur.updatedAt=new Date().toISOString(); saveDB(); } }
+function upd(field,val){ if(!cur)return; cur[field]=val; if(field==="zip")document.getElementById("hdrZip").textContent=val; touch(); }
+function updKnob(kn,val){ if(!cur)return; cur.knobs[kn]=+val||0; if(kn==="laborMult")cur.knobs[kn]=+val||1; touch(); renderLines(); renderTotals(); }
+function updSetting(k,v){ db.settings[k]=v; saveDB(); }
+
+/* ============ settings view ============ */
+function renderSettings(){
+  const s=db.settings; const p=PROVIDERS[s.provider];
+  document.getElementById("s_provider").value=s.provider;
+  document.getElementById("s_modelCur").value=s.models[s.provider];
+  const dl=document.getElementById("modelList"); dl.innerHTML="";
+  p.models.forEach(m=>{const o=document.createElement("option");o.value=m;dl.appendChild(o);});
+  document.getElementById("s_keyCur").value=s.keys[s.provider];
+  document.getElementById("keyLabel").textContent=p.label+" API key";
+  document.getElementById("providerWarn").textContent=p.warn+" Keys are stored only in this browser and sent only to the provider. With no key set, the Draft button loads a built-in demo quote.";
+  document.getElementById("orAuthRow").style.display = p.oauth ? "" : "none";
+  const signedIn = !!s.keys.openrouter;
+  document.getElementById("orSignInBtn").style.display = signedIn?"none":"";
+  document.getElementById("orSignOutBtn").style.display = signedIn?"":"none";
+  document.getElementById("orAuthNote").textContent = signedIn ? "Signed in — an OpenRouter key is stored for this browser."
+    : (location.protocol==="file:" ? "OAuth unavailable on a file:// page — host this file or paste a key below." : "Approve access on OpenRouter; you'll be sent right back here.");
+  document.getElementById("s_webSearch").value=s.webSearch?"on":"off";
+  document.getElementById("s_maxSearches").value=s.maxSearches;
+  for(const k of ["zip","overheadPct","markupPct","contingencyPct","laborMult","taxPct"])
+    document.getElementById("s_"+k).value=s[k];
+}
+function updKey(v){ db.settings.keys[db.settings.provider]=v.trim(); saveDB(); renderSettings(); }
+function updModel(v){ db.settings.models[db.settings.provider]=v.trim(); saveDB(); }
+
+/* ============ OpenRouter OAuth (PKCE) ============ */
+const b64url = bytes => btoa(String.fromCharCode(...bytes)).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
+async function orSignIn(){
+  if(location.protocol==="file:"){ alert("OAuth needs this page served over http(s). Host it (GitHub Pages, or run `python3 -m http.server` and open via localhost), or paste an OpenRouter API key instead."); return; }
+  const verifier = b64url(crypto.getRandomValues(new Uint8Array(48)));
+  try{ localStorage.setItem("rq.or.verifier", verifier); }catch(e){ alert("Browser storage unavailable — cannot complete OAuth here. Paste a key instead."); return; }
+  const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(verifier));
+  const challenge = b64url(new Uint8Array(digest));
+  const cb = location.origin + location.pathname;
+  location.href = "https://openrouter.ai/auth?callback_url="+encodeURIComponent(cb)+"&code_challenge="+challenge+"&code_challenge_method=S256";
+}
+function orSignOut(){ db.settings.keys.openrouter=""; saveDB(); renderSettings(); }
+async function orHandleCallback(){
+  const code = new URLSearchParams(location.search).get("code");
+  if(!code) return;
+  let verifier=""; try{ verifier = localStorage.getItem("rq.or.verifier")||""; }catch(e){}
+  try{
+    const r = await fetch("https://openrouter.ai/api/v1/auth/keys",{ method:"POST",
+      headers:{"content-type":"application/json"},
+      body: JSON.stringify({ code, code_verifier:verifier, code_challenge_method:"S256" }) });
+    const j = await r.json();
+    if(j.key){ db.settings.keys.openrouter=j.key; db.settings.provider="openrouter"; saveDB(); }
+    else alert("OpenRouter sign-in failed: "+(j.error?.message||JSON.stringify(j)));
+  }catch(e){ alert("OpenRouter sign-in failed: "+e.message); }
+  try{ localStorage.removeItem("rq.or.verifier"); }catch(e){}
+  history.replaceState(null,"",location.pathname);
+  showView("settings");
+}
+
+/* ============ export / import ============ */
+function exportQuote(){
+  if(!cur)return;
+  const blob=new Blob([JSON.stringify(cur,null,2)],{type:"application/json"});
+  const a=document.createElement("a"); a.href=URL.createObjectURL(blob);
+  a.download=(cur.name||"quote").replace(/[^\w\- ]+/g,"").trim().replace(/ +/g,"-").toLowerCase()+".json";
+  a.click(); URL.revokeObjectURL(a.href);
+}
+function importQuote(ev){
+  const f=ev.target.files[0]; if(!f)return;
+  const r=new FileReader();
+  r.onload=()=>{ try{
+      const q=JSON.parse(r.result);
+      if(!q.lineItems||!q.knobs) throw new Error("Not a RemodelQuoter file");
+      q.id=uuid(); q.updatedAt=new Date().toISOString();
+      db.quotes.unshift(q); saveDB(); renderList();
+    }catch(e){ alert("Import failed: "+e.message); } };
+  r.readAsText(f); ev.target.value="";
+}
+
+/* ============ AI adapter (Spec 03) ============ */
+async function draftWithAI(){
+  if(!cur) return;
+  if(cur.lineItems.length && !confirm("Drafting will replace the current line items, assumptions, and exclusions. Continue?")) return;
+  const btn=document.getElementById("draftBtn"), st=document.getElementById("aiStatus"), er=document.getElementById("aiError");
+  er.style.display="none"; btn.disabled=true;
+  const s=db.settings, key=s.keys[s.provider];
+  const useMock = !key;
+  btn.innerHTML = '<span class="spin"></span>'+(useMock?"Loading demo quote…":"Estimating with "+PROVIDERS[s.provider].label+" (research can take a minute)…");
+  try{
+    const draft = useMock ? await mockDraft()
+      : (s.provider==="anthropic" ? await anthropicDraft(cur.scopeText, cur.zip)
+                                  : await oaiCompatDraft(cur.scopeText, cur.zip));
+    applyDraft(draft);
+    st.textContent = useMock ? "Demo quote loaded (no key for "+PROVIDERS[s.provider].label+" — sign in or add a key in Settings)." :
+      "Draft complete — every number below is editable.";
+  }catch(e){
+    er.textContent = "AI drafting failed: " + e.message; er.style.display="";
+  }finally{
+    btn.disabled=false; btn.textContent="Draft quote with AI";
+  }
+}
+function applyDraft(d){
+  cur.name = d.projectName || cur.name;
+  cur.assumptions = d.assumptions||[];
+  cur.exclusions = d.exclusions||[];
+  cur.permitLikely = !!d.permitLikely;
+  cur.confidenceNotes = d.confidenceNotes||[];
+  cur.lineItems = (d.lineItems||[]).map(li=>({ id:uuid(),
+    trade: TRADES.includes(li.trade)?li.trade:"Other",
+    description:String(li.description||""), qty:+li.qty||0, unit:String(li.unit||"ea"),
+    materialUnit:+li.materialUnit||0, laborUnit:+li.laborUnit||0,
+    source: li.source==="researched"?"researched":"estimated", note:String(li.note||"") }));
+  lastGrand=null; touch(); renderEditor();
+}
+function validateDraft(d){
+  if(!d || !Array.isArray(d.lineItems) || !d.lineItems.length) throw new Error("Response missing lineItems");
+  for(const li of d.lineItems)
+    if(typeof li.description!=="string" || isNaN(+li.qty) || isNaN(+li.materialUnit) || isNaN(+li.laborUnit))
+      throw new Error("A line item has invalid fields");
+  return d;
+}
+function extractJSON(text){
+  const m = [...text.matchAll(/```json\s*([\s\S]*?)```/g)];
+  const raw = m.length ? m[m.length-1][1] : text;
+  return JSON.parse(raw);
+}
+function buildUserMsg(scope, zip, retryErr){
+  let m = `Zip code: ${zip}\nScope of work:\n${scope||"(no scope provided — ask nothing; produce a minimal placeholder quote with assumptions)"}`;
+  if(retryErr) m += `\n\nYour previous response failed validation (${retryErr}). Respond again with ONLY the json code block, valid per the schema.`;
+  return m;
+}
+async function anthropicDraft(scope, zip, retryErr){
+  const s = db.settings;
+  const tools = s.webSearch ? [{type:"web_search_20250305", name:"web_search", max_uses:s.maxSearches||5}] : [];
+  const res = await fetch(PROVIDERS.anthropic.base+"/messages",{
+    method:"POST",
+    headers:{ "content-type":"application/json", "x-api-key":s.keys.anthropic,
+      "anthropic-version":"2023-06-01", "anthropic-dangerous-direct-browser-access":"true" },
+    body: JSON.stringify({ model:s.models.anthropic, max_tokens:8000, system:SYSTEM_PROMPT, tools,
+      messages:[{role:"user",content:buildUserMsg(scope,zip,retryErr)}] })
+  });
+  if(!res.ok){
+    let msg = res.status+" "+res.statusText;
+    try{ const j=await res.json(); msg = j.error?.message || msg; }catch(_){}
+    throw new Error(msg);
+  }
+  const data = await res.json();
+  const text = (data.content||[]).filter(b=>b.type==="text").map(b=>b.text).join("\n");
+  try{ return validateDraft(extractJSON(text)); }
+  catch(e){
+    if(retryErr) throw new Error("Could not get valid JSON after retry: "+e.message);
+    return anthropicDraft(scope, zip, e.message);
+  }
+}
+/* OpenAI-compatible chat/completions — used for OpenRouter, OpenAI, xAI */
+async function oaiCompatDraft(scope, zip, retryErr){
+  const s = db.settings, p = PROVIDERS[s.provider];
+  const body = { model:s.models[s.provider], max_tokens:8000,
+    messages:[ {role:"system",content:SYSTEM_PROMPT}, {role:"user",content:buildUserMsg(scope,zip,retryErr)} ] };
+  if(s.provider==="openrouter" && s.webSearch)
+    body.plugins = [{ id:"web", max_results:s.maxSearches||5 }];
+  const res = await fetch(p.base+"/chat/completions",{
+    method:"POST",
+    headers:{ "content-type":"application/json", "authorization":"Bearer "+s.keys[s.provider] },
+    body: JSON.stringify(body)
+  });
+  if(!res.ok){
+    let msg = res.status+" "+res.statusText;
+    try{ const j=await res.json(); msg = j.error?.message || msg; }catch(_){}
+    throw new Error(msg);
+  }
+  const data = await res.json();
+  const text = data.choices?.[0]?.message?.content || "";
+  try{ return validateDraft(extractJSON(text)); }
+  catch(e){
+    if(retryErr) throw new Error("Could not get valid JSON after retry: "+e.message);
+    return oaiCompatDraft(scope, zip, e.message);
+  }
+}
+async function mockDraft(){
+  await new Promise(r=>setTimeout(r,600));
+  return {
+    projectName:"Hall bath gut remodel (demo)", permitLikely:true,
+    assumptions:["Bathroom is 5x8 (40 sqft), single vanity","Mid-grade finish level; ceramic tile, stock vanity","Plumbing fixtures stay in existing locations","No subfloor rot or hidden damage assumed","Owner selects finishes within stated allowances"],
+    exclusions:["Permit fees","Structural or subfloor repair","Mold/asbestos remediation","Fixtures beyond stated allowances"],
+    confidenceNotes:["Plumbing behind walls is high-variance until demo opens the wall"],
+    lineItems:[
+      {trade:"Demo",description:"Gut bathroom to studs, disposal & dumpster",qty:1,unit:"ls",materialUnit:150,laborUnit:1100,source:"estimated",note:""},
+      {trade:"Plumbing",description:"Rough & trim: tub valve, relocate none, set fixtures",qty:1,unit:"ls",materialUnit:650,laborUnit:1900,source:"estimated",note:""},
+      {trade:"Electrical",description:"GFCI, vanity light, exhaust fan circuit",qty:1,unit:"ls",materialUnit:280,laborUnit:750,source:"estimated",note:""},
+      {trade:"Drywall",description:"Hang, finish & moisture board at wet wall",qty:200,unit:"sqft",materialUnit:0.85,laborUnit:1.9,source:"estimated",note:""},
+      {trade:"Tile",description:"Tub surround + floor, ceramic, incl. backer & waterproofing",qty:120,unit:"sqft",materialUnit:6.5,laborUnit:11,source:"estimated",note:""},
+      {trade:"Cabinetry",description:"36in stock vanity w/ top, install",qty:1,unit:"ea",materialUnit:520,laborUnit:220,source:"estimated",note:""},
+      {trade:"Fixtures/Finish",description:"Toilet, tub, faucet set, mirror, accessories (allowance)",qty:1,unit:"ls",materialUnit:1450,laborUnit:400,source:"estimated",note:"Allowance"},
+      {trade:"Paint",description:"Prime + 2 coats, ceiling & trim",qty:1,unit:"ls",materialUnit:120,laborUnit:450,source:"estimated",note:""},
+      {trade:"Cleanup",description:"Final clean & punch list",qty:1,unit:"ls",materialUnit:30,laborUnit:250,source:"estimated",note:""}
+    ]};
+}
+
+/* ============ proposal (Spec 05) ============ */
+function showProposal(){
+  if(!cur) return;
+  const t = calc(cur); const k = cur.knobs;
+  // fully itemized: lines at direct cost, then explicit tax / contingency / overhead / profit lines
+  const byTrade = {};
+  for(const li of cur.lineItems){ (byTrade[li.trade]=byTrade[li.trade]||[]).push(li); }
+  const order = TRADES.filter(tr=>byTrade[tr]).concat(Object.keys(byTrade).filter(tr=>!TRADES.includes(tr)));
+  let rows="";
+  for(const tr of order){
+    rows += `<tr><td colspan="2" style="font-weight:700;padding-top:10px">${tr}</td></tr>`;
+    for(const li of byTrade[tr]){
+      rows += `<tr><td style="padding-left:14px">${esc(li.description)} <span style="color:#777">(${li.qty} ${esc(li.unit)})</span></td><td style="text-align:right;font-family:var(--mono)">${money(lineTotal(li,k))}</td></tr>`;
+    }
+  }
+  const sumRow = (lbl,val,bold) => `<tr><td style="padding-top:6px;${bold?"font-weight:700":""}">${lbl}</td><td style="text-align:right;font-family:var(--mono);${bold?"font-weight:700":""}">${money(val)}</td></tr>`;
+  rows += `<tr><td colspan="2" style="border-top:1.5px solid #111;padding-top:8px"></td></tr>`;
+  rows += sumRow(`Materials sales tax (${k.taxPct}%)`, t.materialsTax);
+  rows += sumRow("Direct cost subtotal", t.directCost, true);
+  rows += sumRow(`Contingency (${k.contingencyPct}%)`, t.contingency);
+  rows += sumRow(`Overhead / general conditions (${k.overheadPct}%)`, t.overhead);
+  rows += sumRow(`Profit (${k.markupPct}%)`, t.profit);
+  const el = document.getElementById("proposal");
+  el.innerHTML = `
+    <h1>${esc(cur.name)}</h1>
+    <div style="color:#555">Proposal · ${new Date().toLocaleDateString()} · Project zip ${esc(cur.zip)}</div>
+    <h2>Scope of work</h2>
+    <p>${esc(cur.scopeText||"Scope as itemized below.")}</p>
+    <h2>Itemized pricing</h2>
+    <table style="width:100%;border-collapse:collapse">${rows}</table>
+    <div class="ptotal">Total investment: ${money(t.grandTotal)}</div>
+    <h2>Assumptions &amp; allowances</h2>
+    <ul>${cur.assumptions.map(a=>"<li>"+esc(a)+"</li>").join("")||"<li>None stated</li>"}</ul>
+    <h2>Exclusions</h2>
+    <ul>${cur.exclusions.map(a=>"<li>"+esc(a)+"</li>").join("")||"<li>None stated</li>"}</ul>
+    ${cur.permitLikely?"<p><b>Permits:</b> this scope likely requires permitting; permit costs are excluded unless itemized above.</p>":""}
+    <h2>Payment schedule</h2>
+    <ul><li>Deposit at signing — ${money(t.grandTotal/3)}</li><li>At rough-in complete — ${money(t.grandTotal/3)}</li><li>At substantial completion — ${money(t.grandTotal - 2*Math.round(t.grandTotal/3))}</li></ul>
+    <p class="disc">This proposal is an estimate, not a guaranteed price. Pricing valid for 30 days. Items priced per stated assumptions; concealed conditions (framing, plumbing, electrical behind finished surfaces) may require a change order. Contingency, overhead, and profit are itemized above for full transparency.</p>
+    <div style="margin-top:24px"><button class="primary" onclick="window.print()">Print / Save as PDF</button>
+    <button class="ghost" onclick="document.getElementById('proposal').classList.remove('show')">Back to editor</button></div>`;
+  el.classList.add("show");
+  el.scrollIntoView({behavior:"smooth"});
+}
+const esc = s => String(s).replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+/* ============ boot ============ */
+saveDB();
+if(new URLSearchParams(location.search).get("code")) orHandleCallback();
+else showView(db.quotes.length ? "quotes" : "editor");
+/* expose for tests */
+window.__rq = { calc, newQuote, newLine, lineTotal, db:()=>db };
+</script>
+</body>
+</html>
