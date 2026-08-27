@@ -1,0 +1,8 @@
+{
+  "source_repo": "mdrilesbutler/remodelquoter-claude",
+  "source_path": "remodelquoter-pages",
+  "source_commit": "81e0ea6feb10f470619adf3419bee150856b7191",
+  "public_url": "https://mdrilesbutler.github.io/remodelquoter/",
+  "rollback_sha": "530011dfd3b9aa2aff5fd5a84f6253724c6f10de",
+  "deployed_at": "2026-08-27T07:01:00Z"
+}

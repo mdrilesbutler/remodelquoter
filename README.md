@@ -2,6 +2,22 @@
 
 Personal remodeling estimator for the Charlotte, NC market. Single HTML file, no build step, no backend. AI drafting via OpenRouter (OAuth sign-in, any model — Claude, GPT, Grok, Gemini) or direct API keys for Anthropic / OpenAI / xAI.
 
+## Canonical source (piclaw)
+
+This folder lives in the private monorepo `mdrilesbutler/remodelquoter-claude`.
+The public site is still https://mdrilesbutler.github.io/remodelquoter/ because
+GitHub Pages keeps that URL on the public repo `mdrilesbutler/remodelquoter`.
+
+From the monorepo root:
+
+```bash
+bash scripts/deploy-github-pages.sh
+bash scripts/rollback-github-pages.sh   # restore previous public commit
+```
+
+See `docs/PAGES-DEPLOY.md`. Do not delete the public host repo without an
+explicit destructive confirmation.
+
 ## Put it on GitHub Pages (one-time, ~3 minutes)
 
 1. Create a new repository on github.com (e.g. `remodelquoter`). Public is fine — the app contains no secrets; your quotes and keys live only in your own browser.
