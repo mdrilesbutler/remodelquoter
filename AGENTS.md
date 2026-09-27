@@ -68,7 +68,7 @@ not where development happens — see WHAT'S LIVE.
 - Deploy/rollback only via `remodelquoter-claude`'s `scripts/deploy-github-pages.sh` / `scripts/rollback-github-pages.sh`.
 
 ## KILLED (dead — never resurface; deleted from runtime, not archived)
-- none
+- `remodelquoter-app` and `remodelquoter-codex` — dead copies; both still hold unmerged commits to salvage later. Not archived.
 
 ## ROADMAP (order is locked; build only the current phase)
 - v1: stay a stable, unattended deploy target. No planned feature work in this repo.
