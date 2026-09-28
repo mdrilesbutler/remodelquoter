@@ -1,5 +1,7 @@
 # remodelquoter — AGENTS.md (the only rules file; every agent reads this)
 
+Dead copy — not where development happens. Live repo: remodelquoter-claude.
+
 You are one of several agents on this repo: Claude Code, Codex, Grok, Hermes, Cursor.
 This file is the constitution. Chat history, Obsidian, old PRDs and other chats do NOT override it.
 **Automatic, every session, without being asked:** your first actions are SESSION START, your last are SESSION END.
